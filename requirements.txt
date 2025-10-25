@@ -1,0 +1,6 @@
+Django>=4.0,<5.0
+gunicorn
+whitenoise
+psycopg2-binary
+dj-database-url
+razorpay
