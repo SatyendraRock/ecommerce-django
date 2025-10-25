@@ -1,0 +1,16 @@
+<h1>Your Order History</h1>
+
+{% for order in orders %}
+    <div style="margin-bottom: 20px;">
+        <h3>Order #{{ order.user_order_number }} - {{ order.date_ordered }}</h3>
+        <p>Transaction ID: {{ order.transaction_id }}</p>
+        <p>Status: {% if order.complete %}Completed{% else %}Pending{% endif %}</p>
+        <ul>
+            {% for item in order.items.all %}
+                <li>{{ item.product.name }} - Quantity: {{ item.quantity }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% empty %}
+    <p>You have no past orders.</p>
+{% endfor %}

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product Listings</title>
+    
+</head>
+<body>
+    <h1>Our Products</h1>
+    <a href="{% url 'order_history' %}">View Order History</a>
+    <a href="{% url 'logout' %}">Logout</a>
+
+    <ul>
+        {% for product in products %}
+            <li>
+                <h2>{{ product.name }}</h2>
+                <p>{{ product.description }}</p>
+                <p>Price: ₹{{ product.price }}</p>
+                <p>Stock: {{ product.stock }}</p>
+                <form method="POST" action="{% url 'add_to_cart' product.id %}">
+                   {% csrf_token %}
+                <button type="submit">Add to Cart</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

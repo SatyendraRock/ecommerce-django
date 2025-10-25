@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Order Confirmation</title>
+  </head>
+  <body>
+    <h2>Thank you, {{ name }}! Your order has been placed.</h2>
+
+    <button id="rzp-button">Pay Now</button>
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+    var options = {
+        "key": "{{ razorpay_key }}",
+        "amount": "{{ payment.amount }}",  // in paise
+        "currency": "INR",
+        "name": "Your Store",
+        "description": "Order Payment",
+        "order_id": "{{ payment.id }}",
+        "handler": function (response){
+            alert("Payment successful: " + response.razorpay_payment_id);
+            // Optional: send this ID to your backend for verification
+        }
+    };
+    var rzp1 = new Razorpay(options);
+    document.getElementById('rzp-button').onclick = function(e){
+        rzp1.open();
+        e.preventDefault();
+    }
+    </script>
+  </body>
+</html>

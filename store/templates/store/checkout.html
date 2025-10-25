@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Checkout</title>
+</head>
+<body>
+    <h1>Checkout</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <label>Name:</label><br>
+        <input type="text" name="name" required><br><br>
+
+        <label>Address:</label><br>
+        <textarea name="address" required></textarea><br><br>
+
+        <button type="submit">Place Order</button>
+    </form>
+</body>
+</html>
