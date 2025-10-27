@@ -1,3 +1,5 @@
+{% load static %}
+
 <body>
     <h1>Our Products</h1>
 
@@ -18,6 +20,17 @@
         {% for product in products %}
             <li>
                 <h2>{{ product.name }}</h2>
+
+                {% if product.name == "light blue" %}
+                    <img src="{% static 'products/blueLight.jpeg' %}" alt="light blue" width="200">
+                {% elif product.name == "green light" %}
+                    <img src="{% static 'products/greenLed.jpeg' %}" alt="green light" width="200">
+                {% elif product.name == "R1Blue T shirt" %}
+                    <img src="{% static 'products/TrendyTShirt.jpeg' %}" alt="R1Blue T shirt" width="200">
+                {% elif product.name == "PaintsBlue" %}
+                    <img src="{% static 'products/PaintsBlue.jpeg' %}" alt="PaintsBlue" width="200">
+                {% endif %}
+
                 <p>{{ product.description }}</p>
                 <p>Price: ₹{{ product.price }}</p>
                 <p>Stock: {{ product.stock }}</p>
