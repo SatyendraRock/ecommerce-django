@@ -80,10 +80,12 @@ def checkout(request):
         })
 
         context = {
-            'payment': payment,
             'razorpay_key': settings.RAZORPAY_KEY_ID,
+            'order_id': payment['id'],  # Add this
+            'amount': payment['amount'],  # Optional, for display
             'name': request.user.username
-        }
+       }
+
         return render(request, 'store/confirmation.html', context)
 
     return render(request, 'store/checkout.html')
