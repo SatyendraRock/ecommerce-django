@@ -11,23 +11,34 @@
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script>
     var options = {
-         "key": "{{ razorpay_key }}",
-         "amount": "{{ amount }}",
-        "currency": "INR",
-        "name": "Your Store",
-        "order_id": "{{ order_id }}",  // Required for OTP and secure payment
-        "handler": function (response){
-                    alert("Payment successful. Razorpay ID: " + response.razorpay_payment_id);
-                    // Optionally send this to backend for verification
-            },
-            ...
-        };
-
+               "key": "{{ razorpay_key }}",
+               "amount": "{{ amount }}",
+               "currency": "INR",
+               "name": "Your Store",
+               "order_id": "{{ order_id }}",
+               "handler": function (response){
+                     // Send response to backend for verification
+                    fetch("{% url 'verify_payment' %}", {
+                              method: "POST",
+                              headers: {
+                                   "Content-Type": "application/x-www-form-urlencoded",
+                                   "X-CSRFToken": "{{ csrf_token }}"
+                              },
+                              body: new URLSearchParams({
+                                 razorpay_payment_id: response.razorpay_payment_id,
+                                 razorpay_order_id: response.razorpay_order_id,
+                                 razorpay_signature: response.razorpay_signature
+                              })
+                    }).then(res => {
+                         if (res.redirected) {
+                              window.location.href = res.url;
+                         }
+                   });
+               }
+    };
     var rzp1 = new Razorpay(options);
-    document.getElementById('rzp-button').onclick = function(e){
-        rzp1.open();
-        e.preventDefault();
-    }
+    rzp1.open();
     </script>
+
   </body>
 </html>
