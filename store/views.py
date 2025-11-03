@@ -12,6 +12,10 @@ from .models import Product, Order, OrderItem
 import razorpay
 from django.conf import settings
 
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponseBadRequest
+
+
 
 
 
@@ -127,5 +131,29 @@ def custom_login(request):
 def custom_logout(request):
     logout(request)
     return redirect('login')
+
+
+@csrf_exempt
+def verify_payment(request):
+    if request.method == "POST":
+        data = request.POST
+        client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
+
+        try:
+            client.utility.verify_payment_signature({
+                'razorpay_order_id': data['razorpay_order_id'],
+                'razorpay_payment_id': data['razorpay_payment_id'],
+                'razorpay_signature': data['razorpay_signature']
+            })
+            # Payment verified — you can update order status here
+            return redirect('order_history')  # or a success page
+        except razorpay.errors.SignatureVerificationError:
+            return redirect('payment_failed')
+    return HttpResponseBadRequest()
+
+
+def payment_failed(request):
+    return render(request, 'store/payment_failed.html')
+
 
 
