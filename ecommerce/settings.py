@@ -54,8 +54,8 @@ LOGOUT_REDIRECT_URL = 'login'
 LOGIN_URL = '/login/'
 
 
-RAZORPAY_KEY_ID = 'rzp_test_RXc32n3ZCd9L9m'
-RAZORPAY_KEY_SECRET = 'tkaZ7odGDhxkILcoWH5iwZwy'
+RAZORPAY_KEY_ID = 'rzp_live_Rb98X4jziiPnQx'
+RAZORPAY_KEY_SECRET = '3Np35n01J1gcbjvlph3brrc7'
 
 
 
